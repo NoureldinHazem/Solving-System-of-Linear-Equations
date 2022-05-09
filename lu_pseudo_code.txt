@@ -1,0 +1,49 @@
+pseudo code for lu decomposition
+
+calculate_lu(matrix,eqn_num)
+
+	L[eqn_num][eqn_num],U[eqn_num][eqn_num]
+	initialize array L with 0
+
+	for i=0 to eqn_num			//to copy variables of matrix in U and put diagonal of L with 1
+		for j=0 to eqn_num
+			U[i][j]=matrix[i][j]
+			if(i==j)
+				L[i][j]=1
+
+	for i=0 to eqn_num		     	//calculate U & L matrix
+		for j=0 to eqn_num
+			m=-(U[j+1][i]/U[i][i])
+			U[j+1]=U[j+1]+U[i]*m
+			L[j+1][i]=-m
+
+	b[eqn_num]
+
+	for i=0 to eqn_num 			//copy results of the given equations
+		b[i]=-matrix[i][eqn_number] 	 
+
+	y[eqn_num]
+	//forward substition to calculate y (Ly=b)
+	for i=0 to eqn_num		
+		for j=0 to eqn_num
+			y[i]=y[i]-L[i][j]*y[j]	
+	
+
+	backward[eqn_num][eqn_num+1]
+	x[eqn_num]
+	
+	for i=0 to eqn_num
+		for j=0 to eqn_num
+			backward[i][j]=U[j][i]
+		backward[i][eqn_num]=y[i]
+		
+	//backward substition to calculate x (Ux=y)
+	for i=eqn_num downto 1
+    		for j=1 to eqn_num-i
+        		backward[i][-1]=backward[i][-1]+backward[i][-2-j]                                                                     
+		res=backward[i][-1]/backward[i][i]        
+		for k=1 to i
+			backward[k][i]=backward[k][i]*res
+		x[i]=res
+
+return x
